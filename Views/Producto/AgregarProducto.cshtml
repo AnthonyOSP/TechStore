@@ -1,0 +1,48 @@
+@model ProductoViewModel
+
+<h1>Agregar Producto</h1>
+
+<form asp-controller="Producto" asp-action="Guardar" method="post">
+    <div class="form-group">
+        <label asp-for="Nombre">Nombre del Producto:</label>
+        <input asp-for="Nombre" class="form-control" />
+        <span asp-validation-for="Nombre" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Descripcion">Descripción:</label>
+        <textarea asp-for="Descripcion" class="form-control"></textarea>
+    </div>
+    <div class="form-group">
+        <label asp-for="Precio">Precio:</label>
+        <input asp-for="Precio" class="form-control" />
+        <span asp-validation-for="Precio" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label>IGV (18%):</label>
+        <input id="igv" class="form-control" readonly />
+    </div>
+    <div class="form-group">
+        <label>Total:</label>
+        <input id="total" class="form-control" readonly />
+    </div>
+    <button type="submit" class="btn btn-primary">Guardar</button>
+</form>
+
+@section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var precioInput = document.getElementById("Precio");
+            var igvInput = document.getElementById("igv");
+            var totalInput = document.getElementById("total");
+
+            precioInput.addEventListener("input", function () {
+                var precio = parseFloat(precioInput.value);
+                var igv = precio * 0.18;
+                var total = precio + igv;
+
+                igvInput.value = igv.toFixed(2);
+                totalInput.value = total.toFixed(2);
+            });
+        });
+    </script>
+}
